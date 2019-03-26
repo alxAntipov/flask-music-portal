@@ -1,0 +1,13 @@
+// main.scss
+@import "./variables";
+
+@import "templates/main";
+
+@import "components/header";
+@import "components/player";
+@import "components/menu";
+@import "components/track";
+
+.main {
+  height: 2000px;
+}

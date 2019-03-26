@@ -1,0 +1,28 @@
+.nav-menu {
+  display: flex;
+  &__item {
+    margin-right: 10px;
+    position: relative;
+    padding: 10px 15px;
+    font-size: 18px;
+    font-weight: 100;
+    color: $text-color;
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $active-color;
+      &:after {
+        position: absolute;
+        display: flex;
+        content: "";
+        left: 15px;
+        bottom: 0;
+        height: 2px;
+        width: 50%;
+        background: $active-color;
+      }
+    }
+  }
+}

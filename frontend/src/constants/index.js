@@ -1,0 +1,8 @@
+export const TRACKS_REQUEST = "TRACKS_REQUEST"
+export const TRACKS_SUCCESS = "TRACKS_SUCCESS"
+export const TRACKS_ERROR = "TRACKS_ERROR"
+
+export const PLAYER_NEW = "PLAYER_NEW"
+
+export const PLAYLIST_SET = "PLAYLIST_SET"
+export const PLAYLIST_CLEAR = "PLAYLIST_CLEAR"

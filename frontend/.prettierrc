@@ -1,0 +1,8 @@
+{
+  "semi": false,
+  "prettier.cssEnable": [
+    "css",
+    "less",
+    "sass"
+  ]
+}

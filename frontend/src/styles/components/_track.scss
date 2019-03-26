@@ -1,0 +1,10 @@
+.track {
+  display: flex;
+  color: $text-color;
+  border: 2px solid $main-color;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    border: 2px solid $active-color;
+  }
+}
