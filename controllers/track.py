@@ -8,15 +8,15 @@ UPLOAD_FOLDER = "data/"
 
 @app.route('/tracks', methods=['GET'])
 def get_all_tracks():
+  print(request.headers)
   tracks = mongo.db.track
   output = []
   for track in tracks.find():
-    output.append({ "_id": str(track["_id"]), "path": track["path"]})
+    output.append({ "_id": str(track["_id"]), "artist": track["artist"] , "name": track["name"]})
   return jsonify(output)
 
 @app.route('/track/<id_track>', methods=['GET'])
 def get_one_track(id_track):
-  print(id_track)
   track = mongo.db.track
   t = track.find_one({'_id' : ObjectId(id_track)})
   print(t)

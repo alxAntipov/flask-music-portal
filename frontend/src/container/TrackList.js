@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
+import Track from "../components/Track"
 import { getTracks } from "../action/tracks"
 import { newPlayer } from "../action/player"
 import { setPlaylist } from "../action/playlist"
@@ -22,13 +23,12 @@ class TrackList extends Component {
       <div className="track-list">
         {tracks
           ? tracks.map((track, id) => (
-              <li
-                className="track"
+              <Track
                 key={id}
-                onClick={() => this.setNewTrack(track)}
-              >
-                {track.path} 03:23
-              </li>
+                number={id}
+                track={track}
+                playHandle={this.setNewTrack}
+              />
             ))
           : null}
       </div>

@@ -1,0 +1,20 @@
+@mixin underscore {
+  padding: 10px 15px;
+  position: relative;
+  &:after {
+    position: absolute;
+    content: "";
+    left: 15px;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: $active-color;
+    transition: width 0.2s ease-in-out;
+  }
+  &--active {
+    color: $active-color;
+    &:after {
+      width: 50%;
+    }
+  }
+}

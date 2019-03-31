@@ -1,3 +1,30 @@
-.head {
+.header {
   border: 1px solid rgba(255, 255, 255, 0.05);
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.profile {
+  position: relative;
+  color: $text-color;
+
+  &__login {
+    cursor: pointer;
+  }
+  
+  &__menu {
+    position: absolute;
+    padding: 10px 20px;
+    top: 25px;
+    right: 10px;
+    background-color: $active-color;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 }

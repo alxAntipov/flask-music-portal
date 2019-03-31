@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import OrderedDict
 import scipy
+import re
 
 import keras
 from keras.models import Model, load_model
@@ -98,7 +99,7 @@ def normalize_data(predicts):
 if __name__ == '__main__':
   song_samples = 660000
   test_folder = 'data'
-  songs_sample, file_names = read_data(test_folder, song_samples)
+  songs_sample, path_file = read_data(test_folder, song_samples)
   print(songs_sample.shape)
 
   models_name = 'reccomendationEngine/models/model_snn.h5'
@@ -123,6 +124,7 @@ if __name__ == '__main__':
   track = mongo.db.track
   i = 0
   for el in result_genres:
-    track_ids = track.insert({'path': file_names[i], 'genres': el})
-    print("Save ", file_names[i])
+    artist, name = re.sub(r'\d{1,3}\.|.mp3', '', path_file[i]).strip().split(" - ", 1)
+    track_ids = track.insert({'artist': artist, 'name': name, 'path': path_file[i], 'genres': el})
+    print("Save ", path_file[i])
     i += 1

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { getTime } from "../utils"
+import { getTime } from "../utils/time"
 
 class ProgressBar extends Component {
   seekUpdate = e => {

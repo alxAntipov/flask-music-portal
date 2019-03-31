@@ -1,5 +1,6 @@
 // main.scss
 @import "./variables";
+@import "./mixins";
 
 @import "templates/main";
 
@@ -7,7 +8,5 @@
 @import "components/player";
 @import "components/menu";
 @import "components/track";
-
-.main {
-  height: 2000px;
-}
+@import "components/heart";
+@import "components/authenticated";

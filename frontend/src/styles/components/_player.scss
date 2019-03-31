@@ -6,10 +6,56 @@
   bottom: 0;
   opacity: 0.95;
 
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+  }
+
+  &__volume-control {
+    display: flex;
+    align-items: center;
+  }
+
+  &__trackname {
+    display: flex;
+    flex-direction: column;
+    color: $text-color;
+
+    &--bold {
+      font-weight: bold;
+    }
+  }
+
+  &__volume-bar {
+    display: block;
+    appearance: none;
+    width: 100px;
+    height: 7px;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 7px;
+      background: $active-color;
+    }
+  }
+
   &__btn {
-    margin: 10px;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
     outline: none;
     border: none;
     cursor: pointer;
@@ -38,6 +84,22 @@
   &__next {
     background: url(https://img.icons8.com/android/24/000000/fast-forward.png)
       center no-repeat;
+  }
+
+  &__volume-on {
+    background: url(https://img.icons8.com/metro/26/000000/high-volume.png)
+      center no-repeat;
+  }
+
+  &__volume-off {
+    background: url(https://img.icons8.com/metro/26/000000/no-audio.png) center
+      no-repeat;
+  }
+
+  &__like {
+    width: 25px;
+    height: 20px;
+    margin-left: 10px;
   }
 }
 

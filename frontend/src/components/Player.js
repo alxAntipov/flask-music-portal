@@ -11,6 +11,8 @@ class Player extends Component {
     currentTime: 0,
     duration: 0,
     volume: 100,
+    prevVolume: 100,
+    isMute: false,
     isDragged: false
   }
   audio = new Audio()
@@ -35,14 +37,14 @@ class Player extends Component {
   }
   next = () => {
     const { dispatch, playlist, track } = this.props
-    const nextSong = playlist[playlist.findIndex(x => x._id === track) + 1]
+    const nextSong = playlist[playlist.findIndex(x => x._id === track._id) + 1]
     if (nextSong) {
       dispatch(newPlayer(nextSong))
     }
   }
   prev = () => {
     const { dispatch, playlist, track } = this.props
-    const prevSong = playlist[playlist.findIndex(x => x._id === track) - 1]
+    const prevSong = playlist[playlist.findIndex(x => x._id === track._id) - 1]
     if (prevSong) {
       dispatch(newPlayer(prevSong))
     }
@@ -61,16 +63,48 @@ class Player extends Component {
       this.next()
     }
   }
+
   changeVolume = e => {
     this.setState({
       volume: e.target.value
     })
     this.audio.volume = e.target.value / 100
+    const mute = Number(e.target.value) === 0 ? true : false
+    this.setState({
+      isMute: mute
+    })
   }
+
+  volumeOn = () => {
+    this.setState({
+      volume: this.state.prevVolume * 100
+    })
+    this.audio.volume = this.state.prevVolume
+    this.setState({
+      isMute: false
+    })
+  }
+
+  volumeOff = () => {
+    this.setState({
+      volume: 0,
+      prevVolume: this.audio.volume
+    })
+    this.audio.volume = 0
+    this.setState({
+      isMute: true
+    })
+  }
+
+  like = id => {
+    console.log(id)
+  }
+
   componentWillReceiveProps(nextProps) {
     this.audio.pause()
     this.audio.currentTime = 0
     this.audio = new Audio(`${API_ROOT}/track/${nextProps.track._id}`)
+    this.audio.volume = this.state.volume / 100
     this.play()
     this.audio.addEventListener("timeupdate", this.updateTime)
   }
@@ -81,7 +115,7 @@ class Player extends Component {
     this.audio.currentTime = 0
   }
   render() {
-    const { isPlay, currentTime, duration } = this.state
+    const { isPlay, currentTime, duration, isMute } = this.state
     const { track } = this.props
     return (
       <div className="player">
@@ -93,26 +127,49 @@ class Player extends Component {
           duration={duration}
           currentTime={currentTime}
         />
-        <div className="player-content">
-          <button className="player__btn player__prev" onClick={this.prev} />
-          {isPlay ? (
-            <button
-              className="player__btn player__pause"
-              onClick={this.pause}
-            />
-          ) : (
-            <button className="player__btn player__play" onClick={this.play} />
-          )}
-          <button className="player__btn player__next" onClick={this.next} />
-          <p className="">{track.path}</p>
-          <div class="wrap">
+        <div className="player__content">
+          <div className="player__controls">
+            <button className="player__btn player__prev" onClick={this.prev} />
+            {isPlay ? (
+              <button
+                className="player__btn player__pause"
+                onClick={this.pause}
+              />
+            ) : (
+              <button
+                className="player__btn player__play"
+                onClick={this.play}
+              />
+            )}
+            <button className="player__btn player__next" onClick={this.next} />
+            <div className="player__trackname">
+              <p className="player__trackname--bold">{track.artist}</p>
+              <p>{track.name}</p>
+            </div>
+            <div onClick={() => this.like(track._id)} className="player__like">
+              <div className="heart" />
+            </div>
+          </div>
+
+          <div className="player__volume-control">
+            {isMute ? (
+              <button
+                className="player__btn player__volume-off"
+                onClick={this.volumeOn}
+              />
+            ) : (
+              <button
+                className="player__btn player__volume-on"
+                onClick={this.volumeOff}
+              />
+            )}
             <input
+              className="player__volume-bar"
               type="range"
               min="0"
               max="100"
               value={this.state.volume}
               onChange={this.changeVolume}
-              class="range"
             />
           </div>
         </div>

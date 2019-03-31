@@ -1,0 +1,34 @@
+.heart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 0;
+    width: 55%;
+    height: 100%;
+    background: $btn-color;
+    border-radius: 50% 50% 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+
+  &:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+
+  &:hover:before,
+  &:hover:after {
+    background-color: #fff;
+  }
+  &--active {
+    background: $active-color;
+  }
+}
