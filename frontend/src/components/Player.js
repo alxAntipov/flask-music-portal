@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { API_ROOT } from "../config"
 import ProgressBar from "./ProgressBar"
 
+import { likeTrack } from "../action/tracks"
 import { newPlayer } from "../action/player"
 
 class Player extends Component {
@@ -97,7 +98,14 @@ class Player extends Component {
   }
 
   like = id => {
-    console.log(id)
+    const { dispatch, track } = this.props
+    const data = {
+      songId: track._id,
+      artist: track.artist,
+      name: track.name,
+      isLike: !track.isLike
+    }
+    dispatch(likeTrack(data))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -147,7 +155,7 @@ class Player extends Component {
               <p>{track.name}</p>
             </div>
             <div onClick={() => this.like(track._id)} className="player__like">
-              <div className="heart" />
+              <div className={track.isLike ? "heart heart--active" : "heart"} />
             </div>
           </div>
 
@@ -179,7 +187,7 @@ class Player extends Component {
 }
 const mapStateToProps = state => ({
   track: state.player,
-  playlist: state.playlist
+  playlist: state.playlist.tracks
 })
 
 export default connect(mapStateToProps)(Player)

@@ -29,6 +29,9 @@
     background-color: #fff;
   }
   &--active {
-    background: $active-color;
+    &:before,
+    &:after {
+      background: $active-color;
+    }
   }
 }

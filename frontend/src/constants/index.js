@@ -1,6 +1,9 @@
 export const TRACKS_REQUEST = "TRACKS_REQUEST"
 export const TRACKS_SUCCESS = "TRACKS_SUCCESS"
 export const TRACKS_ERROR = "TRACKS_ERROR"
+export const TRACKS_CLEAR = "TRACKS_CLEAR"
+
+export const TRACK_LIKE = "TRACK_LIKE"
 
 export const PLAYER_NEW = "PLAYER_NEW"
 

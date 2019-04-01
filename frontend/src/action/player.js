@@ -1,8 +1,8 @@
-import { PLAYER_NEW } from "../constants"
+import { PLAYER_NEW, PLAYER_LIKE } from "../constants"
 
 export function newPlayer(track) {
   return {
     type: PLAYER_NEW,
-    payload: track
+    track: track
   }
 }

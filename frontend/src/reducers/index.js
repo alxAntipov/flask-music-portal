@@ -1,5 +1,5 @@
 import { combineReducers } from "redux"
-import tracks from "./tracks"
+import pageTracks from "./pageTracks"
 import player from "./player"
 import playlist from "./playlist"
 import session from "./session"
@@ -7,7 +7,7 @@ import register from "./register"
 
 const reducers = combineReducers({
   player,
-  tracks,
+  pageTracks,
   playlist,
   session,
   register

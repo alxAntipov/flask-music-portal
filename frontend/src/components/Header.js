@@ -22,7 +22,7 @@ class Header extends Component {
               <NavLink
                 className="nav-menu__item"
                 activeClassName="nav-menu__item--active"
-                to="/recommend"
+                to="/recommendaton"
               >
                 Рекомендации
               </NavLink>
@@ -35,7 +35,16 @@ class Header extends Component {
               </NavLink>
             </nav>
             {localStorage.getItem("auth") ? (
-              <Profile login={session.login} />
+              <>
+                <NavLink
+                  className="nav-menu__item"
+                  activeClassName="nav-menu__item--active"
+                  to="/mySong"
+                >
+                  Моя музыка
+                </NavLink>
+                <Profile login={session.login} />
+              </>
             ) : (
               <nav className="nav-menu">
                 <Link className="nav-menu__item" to="/login">

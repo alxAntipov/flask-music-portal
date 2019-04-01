@@ -2,23 +2,33 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import Track from "../components/Track"
-import { getTracks } from "../action/tracks"
+import { getTracks, clearPage } from "../action/tracks"
 import { newPlayer } from "../action/player"
 import { setPlaylist } from "../action/playlist"
 
 class TrackList extends Component {
   setNewTrack = id => {
-    const { dispatch, tracks } = this.props
+    const { dispatch, currentPlaylist, pagePlaylist } = this.props
     dispatch(newPlayer(id))
-    dispatch(setPlaylist(tracks))
+    if (pagePlaylist.name !== currentPlaylist) {
+      dispatch(setPlaylist(pagePlaylist))
+    }
   }
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(getTracks())
+    const { dispatch, history } = this.props
+    const playlistName =
+      history.location.pathname === "/"
+        ? "all"
+        : history.location.pathname.substring(1)
+    dispatch(getTracks(playlistName))
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearPage())
   }
 
   render() {
-    const { tracks } = this.props
+    const { tracks } = this.props.pagePlaylist
     return (
       <div className="track-list">
         {tracks
@@ -37,7 +47,8 @@ class TrackList extends Component {
 }
 
 const mapStateToProps = state => ({
-  tracks: state.tracks
+  pagePlaylist: state.pageTracks,
+  currentPlaylist: state.playlist.name
 })
 
 export default connect(mapStateToProps)(TrackList)
