@@ -1,4 +1,4 @@
-import { TRACK_LIKE, TRACKS_SUCCESS } from "../constants"
+import { TRACK_LIKE, TRACKS_SUCCESS, TRACKS_CLEAR } from "../constants"
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -14,6 +14,8 @@ export default (state = {}, action) => {
           return track
         })
       }
+    case TRACKS_CLEAR:
+      return {}
     default:
       return state
   }

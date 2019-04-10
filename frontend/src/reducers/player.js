@@ -1,7 +1,7 @@
 import { PLAYER_NEW, TRACK_LIKE } from "../constants"
 
 const initialState = {
-  track: {},
+  audio: new Audio(),
   isPlay: false,
   currentTime: 0,
   duration: 0,

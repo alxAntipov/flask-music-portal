@@ -43,6 +43,7 @@ def read_data(src_dir, song_samples):
     # Empty array of dicts with the processed features from all files
     arr_specs = []
     arr_names = []
+    arr_duration = []
 
     # Read files from the folders
     for root, subdirs, files in os.walk(src_dir):
@@ -52,6 +53,7 @@ def read_data(src_dir, song_samples):
             print("Read file: {}".format(file))
 
             signal, sr = librosa.load(file_name, offset=30.0, duration=30.0)
+            duration = librosa.get_duration(filename=file_name)
             signal = signal[:song_samples]
 
             # Convert to dataset of spectograms/melspectograms
@@ -60,9 +62,10 @@ def read_data(src_dir, song_samples):
             # Convert to "spec" representation
             specs = extract_melspectrogram(signals)
             # Save files
+            arr_duration.append(duration)
             arr_specs.append(specs)
             arr_names.append(file)
-    return np.array(arr_specs), np.array(arr_names)
+    return np.array(arr_specs), np.array(arr_names), np.array(arr_duration)
 
 def predict_genres(songs, models_name):
 
@@ -73,6 +76,7 @@ def predict_genres(songs, models_name):
         predicts.append(model.predict(X))
 
     return np.array(predicts)
+
 def normalize_data(predicts):
 
     songs = []
@@ -99,25 +103,23 @@ def normalize_data(predicts):
 if __name__ == '__main__':
   song_samples = 660000
   test_folder = 'data'
-  songs_sample, path_file = read_data(test_folder, song_samples)
-  print(songs_sample.shape)
+  songs_sample, path_file, duration = read_data(test_folder, song_samples)
 
   models_name = 'reccomendationEngine/models/model_snn.h5'
   predicts = predict_genres(songs_sample, models_name)
-  print(predicts.shape)
-
-  genres = ['metal', 'disco', 'classical', 'hiphop', 'jazz', 
-           'country', 'pop', 'blues', 'reggae', 'rock']
+  genres = mongo.db.genres.find({})
 
   songs = normalize_data(predicts)
 
   result_genres = []
+  max_genre = []
   for song in songs:
     i = 0
     dicts = {}
     for genre_song in song:
-      dicts.update({genres[i]: genre_song})
+      dicts.update({genres[i]['name']: genre_song})
       i += 1
+    max_genre.append(genres[int(np.argmax(song))]['name'])
     result_genres.append(dicts)
     i = 0
   
@@ -125,6 +127,13 @@ if __name__ == '__main__':
   i = 0
   for el in result_genres:
     artist, name = re.sub(r'\d{1,3}\.|.mp3', '', path_file[i]).strip().split(" - ", 1)
-    track_ids = track.insert({'artist': artist, 'name': name, 'path': path_file[i], 'genres': el})
+    track_ids = track.insert({
+        'artist': artist, 
+        'name': name, 
+        'genre': max_genre[i],
+        'duration': duration[i],
+        'path': path_file[i], 
+        'genres': el
+    })
     print("Save ", path_file[i])
     i += 1

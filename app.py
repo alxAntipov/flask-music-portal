@@ -15,7 +15,7 @@ CORS(app)
 app.config['MONGO_DBNAME'] = 'music'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/music'
 app.config['JWT_SECRET_KEY'] = 'secret-key'
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=7)
 
 mongo = PyMongo(app)
 flask_bcrypt = Bcrypt(app)

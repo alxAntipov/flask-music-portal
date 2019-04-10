@@ -63,9 +63,10 @@ def register():
 
 
 @app.route('/refresh', methods=['POST'])
+@jwt_refresh_token_required
 def refresh():
-  ''' refresh token endpoint '''
   current_user = get_jwt_identity()
+  print("refresh")
   ret = {
       'token': create_access_token(identity=current_user)
   }

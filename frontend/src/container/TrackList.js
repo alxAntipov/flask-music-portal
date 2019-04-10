@@ -14,13 +14,20 @@ class TrackList extends Component {
       dispatch(setPlaylist(pagePlaylist))
     }
   }
-  componentDidMount() {
-    const { dispatch, history } = this.props
-    const playlistName =
-      history.location.pathname === "/"
-        ? "all"
-        : history.location.pathname.substring(1)
+
+  getTracks = () => {
+    const { dispatch, playlistName } = this.props
     dispatch(getTracks(playlistName))
+  }
+
+  componentDidMount() {
+    this.getTracks()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.playlistName !== prevProps.playlistName) {
+      this.getTracks()
+    }
   }
 
   componentWillUnmount() {
@@ -30,18 +37,21 @@ class TrackList extends Component {
   render() {
     const { tracks } = this.props.pagePlaylist
     return (
-      <div className="track-list">
-        {tracks
-          ? tracks.map((track, id) => (
-              <Track
-                key={id}
-                number={id}
-                track={track}
-                playHandle={this.setNewTrack}
-              />
-            ))
-          : null}
-      </div>
+      <>
+        <h2>{this.props.header}</h2>
+        <div className="track-list">
+          {tracks
+            ? tracks.map((track, id) => (
+                <Track
+                  key={id}
+                  number={id}
+                  track={track}
+                  playHandle={this.setNewTrack}
+                />
+              ))
+            : null}
+        </div>
+      </>
     )
   }
 }

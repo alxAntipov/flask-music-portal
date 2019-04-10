@@ -8,8 +8,12 @@ export class PlayerContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  player: state.player,
-  playlist: state.playlist
+  playlist: state.playlist,
+  track: state.player.track._id,
+  isPlay: state.player.isPlay,
+  currentTime: state.player.currentTime,
+  duration: state.player.duration,
+  volume: state.player.volume
 })
 
 const mapDispatchToProps = {}

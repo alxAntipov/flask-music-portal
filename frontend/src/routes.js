@@ -1,22 +1,53 @@
-import React from "react"
-import { Switch } from "react-router-dom"
-import MainLayoutRoute from "./components/MainLayoutRoute"
-import AuthLayoutRoute from "./components/AuthLayoutRoute"
-import PrivateRoute from "./components/PrivateRoute"
+import MainLayout from "./components/MainLayout"
+import AuthLayout from "./components/AuthLayout"
 import TrackList from "./container/TrackList"
 import Login from "./components/Login"
 import Register from "./components/Register"
 
-export default (
-  <Switch>
-    <MainLayoutRoute exact path="/" component={TrackList} />
-    <AuthLayoutRoute path="/login" component={Login} />
-    <AuthLayoutRoute path="/register" component={Register} />
-    <MainLayoutRoute path="/recommendaton" component={() => "Рекоммендации"} />
-    <MainLayoutRoute
-      path="/genres"
-      component={() => "Эта страница еще не добалена"}
-    />
-    <PrivateRoute path="/mySong" component={TrackList} />
-  </Switch>
-)
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    layout: MainLayout,
+    component: TrackList,
+    props: {
+      playlistName: "all",
+      header: "Новое"
+    }
+  },
+  {
+    path: "/login",
+    layout: AuthLayout,
+    component: Login
+  },
+  {
+    path: "/register",
+    layout: AuthLayout,
+    component: Register
+  },
+  {
+    path: "/recommendaton",
+    layout: MainLayout,
+    component: TrackList,
+    props: {
+      playlistName: "reccomendation",
+      header: "Рекомендации"
+    }
+  },
+  {
+    path: "/genres",
+    layout: MainLayout,
+    component: () => "Жанры"
+  },
+  {
+    path: "/mySong",
+    layout: MainLayout,
+    component: TrackList,
+    props: {
+      playlistName: "my",
+      header: "Моя музыка"
+    }
+  }
+]
+
+export default routes

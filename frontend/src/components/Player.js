@@ -103,6 +103,7 @@ class Player extends Component {
       songId: track._id,
       artist: track.artist,
       name: track.name,
+      duration: track.duration,
       isLike: !track.isLike
     }
     dispatch(likeTrack(data))
